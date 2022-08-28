@@ -11,7 +11,6 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     Random random = new Random();
     ImageIcon harshitImage = new ImageIcon("./Images/harshit.png");
     ImageIcon gameOver = new ImageIcon("./Images/gameOver.png");
-
     //cloud icons
     ImageIcon cloud1 = new ImageIcon("./Images/cloud1.png");
     ImageIcon cloud2 = new ImageIcon("./Images/cloud2.png");
@@ -34,6 +33,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     JLabel catw1;
     JLabel catw2;
     JPanel grassPanel;
+    JPanel grassLabel;
     Timer timer;
     int x, speed, points, pointIncrement, pointX, prevDig;
 
@@ -50,6 +50,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         grassPanel = new JPanel();
         grassPanel.setBackground(new Color(50,5,6));
         grassPanel.setBounds(0,430,1100,50);
+
+        grassLabel = new JPanel();
+        grassLabel.setBackground(new Color(10,80,30));
+        grassLabel.setBounds(0,430,1100,10);
 
         harshit = new JLabel();
         harshit.setIcon(harshitImage);
@@ -91,6 +95,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         this.add(cloudLabel1);
         this.add(cloudLabel2);
         this.add(cloudLabel3);
+        this.add(grassLabel);
         this.add(grassPanel);
         this.add(harshit);
 
