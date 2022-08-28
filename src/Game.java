@@ -110,6 +110,13 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         g2d.setFont(new Font(null,Font.BOLD,30));
         g2d.drawString(""+points,pointX,50);
 
+        if(!play){
+            g2d.setFont(new Font(null,Font.BOLD,12));
+            g2d.drawString("Use SPACE to Start Game",430,50);
+            g2d.drawString("Use SPACE to Jump",450,80);
+            g2d.drawString("Use SPACE mid-air to Double Jump",400,110);
+        }
+
         repaint();
     }
 
