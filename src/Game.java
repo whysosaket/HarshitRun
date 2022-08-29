@@ -1,9 +1,12 @@
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 public class Game extends JPanel implements ActionListener, KeyListener {
@@ -25,6 +28,14 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     //cactus images
     ImageIcon catt = new ImageIcon("./Images/catt.png");
     ImageIcon catw = new ImageIcon("./Images/catw.png");
+
+    //sound
+    File file;
+    AudioInputStream audioStream;
+    Clip clip;
+
+
+
     static JLabel harshit;
     static JLabel chaser;
     JLabel gameOverLabel;
@@ -135,6 +146,14 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if(points==650) {
+                playSound();
+        }
+        if(points==3010||!play) {
+            stopSound();
+        }
+
         //character animation
         if(play) animateCharacters.start();
         if(jumpUP||jumpDOWN) animateCharacters.stop();
@@ -267,7 +286,25 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     }
 
+    void loadSound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        file = new File("./Sound/run.wav");
+        audioStream = AudioSystem.getAudioInputStream(file);
+        clip = AudioSystem.getClip();
+        clip.open(audioStream);
+    }
+
     void defaultValues(){
+
+        try {
+            loadSound();
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+
         harshit.setBounds(220,355,60,80);
         chaser.setBounds(80,380,70,50);
         gameOverLabel.setBounds(0,0,0,0);
@@ -300,5 +337,14 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         harshit.setBounds(0,0,0,0);
         chaser.setBounds(0,0,0,0);
         gameOverLabel.setBounds(300,200,400,300);
+        stopSound();
+    }
+
+    void playSound() {
+        clip.start();
+    }
+
+    void stopSound(){
+        clip.stop();
     }
 }
