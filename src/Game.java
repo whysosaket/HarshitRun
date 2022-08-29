@@ -46,7 +46,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     JPanel grassPanel;
     JPanel grassLabel;
     Timer timer;
-    int x, points, pointIncrement, pointX, prevDig;
+    int x, points, pointIncrement, pointX, prevDig, sky=0;
     static int speed;
 
     boolean play=false, jumpUP=false, jumpDOWN=false, doubleJump=true;
@@ -132,6 +132,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             g2d.drawString("Use SPACE to Start Game",430,50);
             g2d.drawString("Use SPACE to Jump",450,80);
             g2d.drawString("Use SPACE mid-air to Double Jump",400,110);
+            g2d.drawString("Use 'S' to change Sky Color",420,140);
         }
 
         repaint();
@@ -257,6 +258,15 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             play=true;
             defaultValues();
             timer.start();
+        }
+        else if(e.getKeyCode()==83){
+            sky = (sky+1)%4;
+            switch (sky) {
+                case 0-> this.setBackground(new Color(50, 150, 250));
+                case 1-> this.setBackground(new Color(20, 80, 150));
+                case 2-> this.setBackground(new Color(20, 20, 60));
+                case 3-> this.setBackground(new Color(20, 30, 50));
+            }
         }
         else {
             if (e.getKeyCode() == 32 && !jumpDOWN) {
