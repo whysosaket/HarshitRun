@@ -9,7 +9,12 @@ import java.util.Random;
 public class Game extends JPanel implements ActionListener, KeyListener {
 
     Random random = new Random();
-    ImageIcon harshitImage = new ImageIcon("./Images/harshit.png");
+    static ImageIcon harshitImage1 = new ImageIcon("./Images/harshit1.png");
+    static ImageIcon harshitImage2 = new ImageIcon("./Images/harshit2.png");
+    //chaser
+    static ImageIcon chaser1 = new ImageIcon("./Images/chaser1.png");
+    static ImageIcon chaser2 = new ImageIcon("./Images/chaser2.png");
+    static ImageIcon chaser3 = new ImageIcon("./Images/chaser3.png");
     ImageIcon gameOver = new ImageIcon("./Images/gameOver.png");
     //cloud icons
     ImageIcon cloud1 = new ImageIcon("./Images/cloud1.png");
@@ -20,7 +25,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     //cactus images
     ImageIcon catt = new ImageIcon("./Images/catt.png");
     ImageIcon catw = new ImageIcon("./Images/catw.png");
-    JLabel harshit;
+    static JLabel harshit;
+    static JLabel chaser;
     JLabel gameOverLabel;
     JLabel cloudLabel1;
     JLabel cloudLabel2;
@@ -35,11 +41,14 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     JPanel grassPanel;
     JPanel grassLabel;
     Timer timer;
-    int x, speed, points, pointIncrement, pointX, prevDig;
+    int x, points, pointIncrement, pointX, prevDig;
+    static int speed;
 
     boolean play=false, jumpUP=false, jumpDOWN=false, doubleJump=true;
+    AnimateCharacters animateCharacters;
 
     Game(){
+        animateCharacters = new AnimateCharacters();
         this.setFocusable(true);
         this.setBackground(new Color(50,150,250));
         this.setLayout(null);
@@ -56,7 +65,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         grassLabel.setBounds(0,430,1100,10);
 
         harshit = new JLabel();
-        harshit.setIcon(harshitImage);
+        harshit.setIcon(harshitImage1);
+        chaser = new JLabel();
+        chaser.setIcon(chaser1);
 
         //gameOver
         gameOverLabel = new JLabel();
@@ -97,6 +108,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         this.add(cloudLabel3);
         this.add(grassLabel);
         this.add(grassPanel);
+        this.add(chaser);
         this.add(harshit);
 
     }
@@ -123,15 +135,20 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(harshit.getY()>193&&jumpUP){
-            harshit.setBounds(120,harshit.getY()-6,60,80);
-            if(harshit.getY()==193) {
+        //character animation
+        if(play) animateCharacters.start();
+        if(jumpUP||jumpDOWN) animateCharacters.stop();
+        else animateCharacters.start();
+
+        if(harshit.getY()>181&&jumpUP){
+            harshit.setBounds(harshit.getX(),harshit.getY()-6,60,80);
+            if(harshit.getY()==181) {
                 jumpDOWN=true;
                 jumpUP=false;
             }
         }
         else if(harshit.getY()<355&&jumpDOWN){
-            harshit.setBounds(120,harshit.getY()+6,60,80);
+            harshit.setBounds(harshit.getX(),harshit.getY()+6,60,80);
             if(harshit.getY()==355){
                 jumpDOWN=false;
                 doubleJump=true;
@@ -205,6 +222,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             pointX -= 20;
             speed += 3;
             pointIncrement *= 5;
+            animateCharacters.setTimer();
         }
 
         //losing case
@@ -250,7 +268,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     }
 
     void defaultValues(){
-        harshit.setBounds(120,355,60,80);
+        harshit.setBounds(220,355,60,80);
+        chaser.setBounds(80,380,70,50);
         gameOverLabel.setBounds(0,0,0,0);
 
         //clouds
@@ -259,10 +278,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         cloudLabel3.setBounds(1300,random.nextInt(20,170),cloud3.getIconWidth(),cloud3.getIconHeight());
         cloudLabel4.setBounds(random.nextInt(1800,2400),random.nextInt(0,150),cloud4.getIconWidth(),cloud4.getIconHeight());
 
-        catt1.setBounds(450,375,30,55);
-        catt2.setBounds(750,375,30,55);
-        catw1.setBounds(1250,390,40,40);
-        catw2.setBounds(780,390,40,40);
+        catt1.setBounds(550,375,30,55);
+        catt2.setBounds(850,375,30,55);
+        catw1.setBounds(1650,390,40,40);
+        catw2.setBounds(2780,390,40,40);
 
         points=0;
         speed=6;
@@ -279,6 +298,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         play=false;
         timer.stop();
         harshit.setBounds(0,0,0,0);
+        chaser.setBounds(0,0,0,0);
         gameOverLabel.setBounds(300,200,400,300);
     }
 }
