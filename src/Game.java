@@ -262,10 +262,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         catt1.setBounds(450,375,30,55);
         catt2.setBounds(750,375,30,55);
         catw1.setBounds(1250,390,40,40);
-        catw2.setBounds(800,390,40,40);
+        catw2.setBounds(780,390,40,40);
 
         points=0;
-        speed=3;
+        speed=6;
         pointIncrement=2;
         prevDig=3;
         pointX=920;
